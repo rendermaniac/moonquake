@@ -12,4 +12,6 @@ public class UserDataHolder : MonoBehaviour
     public int Day;
     public int Hour;
     public int Minute;
+    public string AudioFile;
+    public string PlotFile;
 }

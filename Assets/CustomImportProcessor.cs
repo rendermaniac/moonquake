@@ -20,6 +20,8 @@ class CustomImportProcessor : AssetPostprocessor
         int day = -1;
         int hour = -1;
         int minute = -1;
+        string audio_file = null;
+        string plot_file = null;
 
         for (int i = 0; i < names.Length; i++)
         {
@@ -54,6 +56,12 @@ class CustomImportProcessor : AssetPostprocessor
                     break;
                 case "minute":
                     minute = (int)val;
+                    break;
+                case "audio_file":
+                    audio_file = (string)val;
+                    break;
+                case "plot_file":
+                    plot_file = (string)val;
                     break;
                 default:
                     Debug.LogFormat("Unknown Property : {0} : {1} : {2}", name, val.GetType().Name, val.ToString());
@@ -103,6 +111,14 @@ class CustomImportProcessor : AssetPostprocessor
             if (minute != -1)
             {
                 md.Minute = minute;
+            }
+            if (audio_file != null)
+            {
+                md.AudioFile = audio_file;
+            }
+            if (plot_file != null)
+            {
+                md.PlotFile = plot_file;
             }
         }
     }
