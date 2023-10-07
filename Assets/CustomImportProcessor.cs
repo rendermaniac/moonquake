@@ -11,14 +11,15 @@ class CustomImportProcessor : AssetPostprocessor
         Debug.LogFormat("OnPostprocessGameObjectWithUserProperties(go = {0}) asset = {1}", go.name, asset_name);
 
         string eventType = null;
+        string subType = null;
         float latitude = 0f;
         float longitude = 0f;
+        int depth = -1;
         int year = -1;
         int month = -1;
         int day = -1;
         int hour = -1;
         int minute = -1;
-        int second = -1;
 
         for (int i = 0; i < names.Length; i++)
         {
@@ -30,11 +31,17 @@ class CustomImportProcessor : AssetPostprocessor
                 case "type":
                     eventType = (string)val;
                     break;
+                case "subtype":
+                    subType = (string)val;
+                    break;
                 case "latitude":
                     latitude = (float)val;
                     break;
                 case "longitude":
                     longitude = (float)val;
+                    break;
+                case "depth":
+                    depth = (int)val;
                     break;
                 case "year":
                     year = (int)val;
@@ -47,9 +54,6 @@ class CustomImportProcessor : AssetPostprocessor
                     break;
                 case "minute":
                     minute = (int)val;
-                    break;
-                case "second":
-                    second = (int)val;
                     break;
                 default:
                     Debug.LogFormat("Unknown Property : {0} : {1} : {2}", name, val.GetType().Name, val.ToString());
@@ -64,6 +68,10 @@ class CustomImportProcessor : AssetPostprocessor
             {
                 md.EventType = eventType;
             }
+            if (subType != null)
+            {
+                md.SubType = subType;
+            }
             if (latitude != 0f)
             {
                 md.Latitude = latitude;
@@ -71,6 +79,10 @@ class CustomImportProcessor : AssetPostprocessor
             if (longitude != 0f)
             {
                 md.Longitude = longitude;
+            }
+            if (depth != -1)
+            {
+                md.Depth = depth;
             }
             if (year != -1)
             {
@@ -91,10 +103,6 @@ class CustomImportProcessor : AssetPostprocessor
             if (minute != -1)
             {
                 md.Minute = minute;
-            }
-            if (second != -1)
-            {
-                md.Second = second;
             }
         }
     }
