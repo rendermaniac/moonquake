@@ -66,7 +66,13 @@ public class UserDataHolder : MonoBehaviour
         string FullInfoText = $"Location: {Latitude}ºN {Longitude}ºE \n";
         FullInfoText = FullInfoText + $"Date: {time.ToString("dd/MM/yyyy")} \n";
         FullInfoText = FullInfoText + $"Time: {time.ToString("H:mm:ss")} \n";
-        FullInfoText = FullInfoText + $"Depth: {Depth}m";
+        if (SubType == "landing" || SubType == "impact_artificial")
+        {
+            FullInfoText = FullInfoText + $"Mission: {EventType}";
+        } else
+        {
+            FullInfoText = FullInfoText + $"Depth: {Depth}m";
+        }
 
         GameObject.Find("InfoText").GetComponent<TMPro.TMP_Text>().text = FullInfoText;
 

@@ -6,6 +6,8 @@ using UnityEngine;
 public class EnumerateAll : MonoBehaviour
 {
     public GameObject container;
+    public bool forever = true;
+    public float waitTime = 4;
 
     private UserDataHolder previous;
 
@@ -16,27 +18,29 @@ public class EnumerateAll : MonoBehaviour
 
     IEnumerator Run()
     {
-        yield return new WaitForSeconds(2);
         UserDataHolder[] items = container.GetComponentsInChildren<UserDataHolder>();
 
-        yield return new WaitForSeconds(1);
-        foreach (UserDataHolder item in items)
+        while (forever)
         {
-            if (previous)
+            foreach (UserDataHolder item in items)
             {
-                previous.correctColour();
+                if (previous)
+                {
+                    previous.correctColour();
+                }
+                int returnType = item.InfoBox();
+
+                if (returnType == 0)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                }
+
+                Debug.Log(returnType);
+
+                previous = item;
             }
-            int returnType = item.InfoBox();
-
-            if (returnType == 0)
-            {
-                yield return new WaitForSeconds(4);
-            }
-
-            Debug.Log(returnType);
-
-            previous = item;
         }
+        
         Debug.Log("Complete!"); 
     }
 
