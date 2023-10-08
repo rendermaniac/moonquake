@@ -28,7 +28,10 @@ public class EnumerateAll : MonoBehaviour
             }
             int returnType = item.InfoBox();
 
-            yield return new WaitForSeconds(4);
+            if (returnType == 0)
+            {
+                yield return new WaitForSeconds(4);
+            }
 
             Debug.Log(returnType);
 

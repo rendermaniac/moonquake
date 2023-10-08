@@ -19,8 +19,16 @@ public class UserDataHolder : MonoBehaviour
     public string PlotFile;
     public string IconFile;
 
+    private Vector3 defaultScale = Vector3.one * 0.04f;
+
+    private void SetDefaultScale()
+    {
+        defaultScale = transform.GetChild(0).localScale;
+    }
+
     public int InfoBox()
     {
+        SetDefaultScale();
         string title;
         switch (SubType)
         {
@@ -87,14 +95,17 @@ public class UserDataHolder : MonoBehaviour
                 } else
                 {
                     img.texture = textureFromSprite( Resources.Load<Sprite>("Default") );
+                    return 3;
                 }
             } else
             {
                 img.texture = textureFromSprite(Resources.Load<Sprite>("Default"));
+                return 2;
             }
         } else
         {
             GameObject.Find("WaveForm").GetComponent<RawImage>().texture = textureFromSprite(Resources.Load<Sprite>("Default"));
+            return 1;
         }
 
 
@@ -116,17 +127,17 @@ public class UserDataHolder : MonoBehaviour
                 }
                 else
                 {
-                    return 3;
+                    return 6;
                 }
             }
             else
             {
-                return 2;
+                return 5;
             }
         }
         else
         {
-            return 1;
+            return 4;
         }
 
         // Play sound if exists
@@ -137,8 +148,12 @@ public class UserDataHolder : MonoBehaviour
         }
         else
         {
-            return 5;
+            return 9;
         }
+
+        Transform identifier = gameObject.transform.GetChild(0);
+        identifier.GetComponent<Renderer>().material.color = Color.green;
+        identifier.localScale = Vector3.one * 0.1f;
 
         return 0;
     }
@@ -165,6 +180,7 @@ public class UserDataHolder : MonoBehaviour
     public void correctColour()
     {
         GameObject identifier = transform.GetChild(0).gameObject;
+        identifier.transform.localScale = defaultScale;
         // colour identifier
         switch (SubType)
         {

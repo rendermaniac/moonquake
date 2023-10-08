@@ -53,6 +53,8 @@ public class SetupMoonPoints : MonoBehaviour
                 moonquake.playOnAwake = false;
             }
         }
+        //Debug.Log("Default Broadcast!");
+        //transform.parent.BroadcastMessage("SetDefaultScale");
         Debug.Log("Starting!");
         transform.SendMessage("BeginRound");
     }
