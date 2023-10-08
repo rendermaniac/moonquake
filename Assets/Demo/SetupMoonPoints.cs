@@ -19,12 +19,15 @@ public class SetupMoonPoints : MonoBehaviour
             GameObject newIdentifier = Instantiate(identifier, info.position, info.rotation);
             newIdentifier.transform.parent = info;
 
-            string path;
+            // Create Audio if exists
             if (item.AudioFile != "" || item.AudioFile != null)
             {
-                // Create sound
-                path = Application.persistentDataPath + item.AudioFile;
-                info.gameObject.AddComponent<AudioSource>().clip = AudioClip.Create(path, 672000, 1, 224000, false);
+                item.AudioFile = item.AudioFile.Replace(".wav", "");
+                AudioClip audioComponent = Resources.Load<AudioClip>(item.AudioFile);
+
+                AudioSource moonquake = info.gameObject.AddComponent<AudioSource>();
+                moonquake.clip = audioComponent;
+                moonquake.rolloffMode = AudioRolloffMode.Linear;
             }
         }
         Debug.Log("Starting!");

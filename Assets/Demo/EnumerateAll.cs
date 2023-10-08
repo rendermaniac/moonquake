@@ -16,15 +16,18 @@ public class EnumerateAll : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         UserDataHolder[] items = container.GetComponentsInChildren<UserDataHolder>();
-        Debug.Log(items.Length);
 
         yield return new WaitForSeconds(1);
         while (true)
         {
             foreach (UserDataHolder item in items)
             {
-                item.InfoBox();
-                yield return new WaitForSeconds(2);
+                int returnType = item.InfoBox();
+
+                if (returnType == 0)
+                {
+                    yield return new WaitForSeconds(4);
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ public class UserDataHolder : MonoBehaviour
     public string AudioFile;
     public string PlotFile;
 
-    public void InfoBox()
+    public int InfoBox()
     {
         string title;
         switch (SubType)
@@ -39,8 +39,7 @@ public class UserDataHolder : MonoBehaviour
                 title = $"Rocket Landing || {EventType}";
                 break;
             default:
-                title = $"{SubType} || {EventType}";
-                break;
+                return 1;
         }
         GameObject.Find("InfoTitle").GetComponent<TMPro.TMP_Text>().text = title;
 
@@ -73,17 +72,58 @@ public class UserDataHolder : MonoBehaviour
         {
             Debug.Log("Playing!");
             audio.Play();
+        } else
+        {
+            return 1;
         }
 
         // Create Plot if exists
         if (PlotFile != "" || PlotFile != null)
         {
-            PlotFile.Replace(".png", "");
+            PlotFile = PlotFile.Replace(".png", "");
             Sprite plotSprite = Resources.Load<Sprite>(PlotFile);
-            Debug.Log("Plotting!");
 
-            RawImage img = GameObject.Find("Icon").GetComponent<RawImage>();
-            img.texture = plotSprite.texture;
+            if (plotSprite != null)
+            {
+                Debug.Log("Plotting!");
+
+                RawImage img = GameObject.Find("Icon").GetComponent<RawImage>();
+
+                Texture2D plotTexture = textureFromSprite(plotSprite);
+                if (plotTexture != null)
+                {
+                    img.texture = plotTexture;
+                } else
+                {
+                    return 1;
+                }
+            } else
+            {
+                return 1;
+            }
+        } else
+        {
+            return 1;
         }
+
+        return 0;
+    }
+
+    // https://discussions.unity.com/t/convert-sprite-image-to-texture/97618/4
+    public static Texture2D textureFromSprite(Sprite sprite)
+    {
+        if (sprite.rect.width != sprite.texture.width)
+        {
+            Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+            Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
+                                                         (int)sprite.textureRect.y,
+                                                         (int)sprite.textureRect.width,
+                                                         (int)sprite.textureRect.height);
+            newText.SetPixels(newColors);
+            newText.Apply();
+            return newText;
+        }
+        else
+            return sprite.texture;
     }
 }
