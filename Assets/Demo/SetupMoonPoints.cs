@@ -19,6 +19,28 @@ public class SetupMoonPoints : MonoBehaviour
             GameObject newIdentifier = Instantiate(identifier, info.position, info.rotation);
             newIdentifier.transform.parent = info;
 
+            // colour identifier
+            switch (item.SubType)
+            {
+                case "impact_artificial":
+                    newIdentifier.GetComponent<Renderer>().material.color = Color.red;
+                    break;
+                case "impact_natural":
+                    newIdentifier.GetComponent<Renderer>().material.color = Color.magenta;
+                    break;
+                case "shallow":
+                    newIdentifier.GetComponent<Renderer>().material.color = Color.cyan;
+                    break;
+                case "deep":
+                    newIdentifier.GetComponent<Renderer>().material.color = Color.blue;
+                    break;
+                case "landing":
+                    newIdentifier.GetComponent<Renderer>().material.color = Color.yellow;
+                    break;
+                default:
+                    break;
+            }
+
             // Create Audio if exists
             if (item.AudioFile != "" || item.AudioFile != null)
             {
@@ -28,6 +50,7 @@ public class SetupMoonPoints : MonoBehaviour
                 AudioSource moonquake = info.gameObject.AddComponent<AudioSource>();
                 moonquake.clip = audioComponent;
                 moonquake.rolloffMode = AudioRolloffMode.Linear;
+                moonquake.playOnAwake = false;
             }
         }
         Debug.Log("Starting!");

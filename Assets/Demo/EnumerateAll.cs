@@ -7,6 +7,8 @@ public class EnumerateAll : MonoBehaviour
 {
     public GameObject container;
 
+    private UserDataHolder previous;
+
     public void BeginRound()
     {
         StartCoroutine(Run());
@@ -18,18 +20,21 @@ public class EnumerateAll : MonoBehaviour
         UserDataHolder[] items = container.GetComponentsInChildren<UserDataHolder>();
 
         yield return new WaitForSeconds(1);
-        while (true)
+        foreach (UserDataHolder item in items)
         {
-            foreach (UserDataHolder item in items)
+            if (previous)
             {
-                int returnType = item.InfoBox();
-
-                if (returnType == 0)
-                {
-                    yield return new WaitForSeconds(4);
-                }
+                previous.correctColour();
             }
+            int returnType = item.InfoBox();
+
+            yield return new WaitForSeconds(4);
+
+            Debug.Log(returnType);
+
+            previous = item;
         }
+        Debug.Log("Complete!"); 
     }
 
 }

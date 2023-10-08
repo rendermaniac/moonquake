@@ -68,27 +68,17 @@ public class UserDataHolder : MonoBehaviour
         //UI.rotation = transform.rotation;
 
 
-        // Play sound if exists
-        if (gameObject.TryGetComponent<AudioSource>(out AudioSource audio))
-        {
-            Debug.Log("Playing!");
-            audio.Play();
-        } else
-        {
-            return 1;
-        }
-
         // Create Plot if exists
         if (PlotFile != "" || PlotFile != null)
         {
             PlotFile = PlotFile.Replace(".png", "");
             Sprite plotSprite = Resources.Load<Sprite>(PlotFile);
 
+            RawImage img = GameObject.Find("WaveForm").GetComponent<RawImage>();
+
             if (plotSprite != null)
             {
                 Debug.Log("Plotting!");
-
-                RawImage img = GameObject.Find("Icon").GetComponent<RawImage>();
 
                 Texture2D plotTexture = textureFromSprite(plotSprite);
                 if (plotTexture != null)
@@ -96,15 +86,58 @@ public class UserDataHolder : MonoBehaviour
                     img.texture = plotTexture;
                 } else
                 {
-                    return 1;
+                    img.texture = textureFromSprite( Resources.Load<Sprite>("Default") );
                 }
             } else
             {
-                return 1;
+                img.texture = textureFromSprite(Resources.Load<Sprite>("Default"));
             }
         } else
         {
+            GameObject.Find("WaveForm").GetComponent<RawImage>().texture = textureFromSprite(Resources.Load<Sprite>("Default"));
+        }
+
+
+        // Create icon if exists
+        if (IconFile != "" || IconFile != null)
+        {
+            Sprite iconSprite = Resources.Load<Sprite>(IconFile.Replace(".jpg", ""));
+
+            if (iconSprite != null)
+            {
+                Debug.Log("adding icon!");
+
+                RawImage img = GameObject.Find("Icon").GetComponent<RawImage>();
+
+                Texture2D plotTexture = textureFromSprite(iconSprite);
+                if (plotTexture != null)
+                {
+                    img.texture = plotTexture;
+                }
+                else
+                {
+                    return 3;
+                }
+            }
+            else
+            {
+                return 2;
+            }
+        }
+        else
+        {
             return 1;
+        }
+
+        // Play sound if exists
+        if (gameObject.TryGetComponent<AudioSource>(out AudioSource audio))
+        {
+            Debug.Log("Playing!");
+            audio.Play();
+        }
+        else
+        {
+            return 5;
         }
 
         return 0;
@@ -126,5 +159,32 @@ public class UserDataHolder : MonoBehaviour
         }
         else
             return sprite.texture;
+    }
+
+
+    public void correctColour()
+    {
+        GameObject identifier = transform.GetChild(0).gameObject;
+        // colour identifier
+        switch (SubType)
+        {
+            case "impact_artificial":
+                identifier.GetComponent<Renderer>().material.color = Color.red;
+                break;
+            case "impact_natural":
+                identifier.GetComponent<Renderer>().material.color = Color.magenta;
+                break;
+            case "shallow":
+                identifier.GetComponent<Renderer>().material.color = Color.cyan;
+                break;
+            case "deep":
+                identifier.GetComponent<Renderer>().material.color = Color.blue;
+                break;
+            case "landing":
+                identifier.GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+            default:
+                break;
+        }
     }
 }
