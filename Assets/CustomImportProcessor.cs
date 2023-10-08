@@ -22,6 +22,7 @@ class CustomImportProcessor : AssetPostprocessor
         int minute = -1;
         string audio_file = null;
         string plot_file = null;
+        string icon_file = null;
 
         for (int i = 0; i < names.Length; i++)
         {
@@ -62,6 +63,9 @@ class CustomImportProcessor : AssetPostprocessor
                     break;
                 case "plot_file":
                     plot_file = (string)val;
+                    break;
+                case "icon_file":
+                    icon_file = (string)val;
                     break;
                 default:
                     Debug.LogFormat("Unknown Property : {0} : {1} : {2}", name, val.GetType().Name, val.ToString());
@@ -119,6 +123,10 @@ class CustomImportProcessor : AssetPostprocessor
             if (plot_file != null)
             {
                 md.PlotFile = plot_file;
+            }
+            if (icon_file != null)
+            {
+                md.IconFile = icon_file;
             }
         }
     }

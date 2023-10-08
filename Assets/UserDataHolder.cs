@@ -17,6 +17,7 @@ public class UserDataHolder : MonoBehaviour
     public int Minute;
     public string AudioFile;
     public string PlotFile;
+    public string IconFile;
 
     public int InfoBox()
     {
@@ -24,19 +25,19 @@ public class UserDataHolder : MonoBehaviour
         switch (SubType)
         {
             case "impact_artificial":
-                title = $"Aritfical Impact || {EventType}";
+                title = $"Aritfical Impact";
                 break;
             case "impact_natural":
-                title = $"Natural Impact || {EventType}";
+                title = $"Natural Impact";
                 break;
             case "shallow":
-                title = $"Shallow Moonquake || {EventType}";
+                title = $"Shallow Moonquake";
                 break;
             case "deep":
-                title = $"Deep Moonquake || {EventType}";
+                title = $"Deep Moonquake";
                 break;
             case "landing":
-                title = $"Rocket Landing || {EventType}";
+                title = $"Rocket Landing";
                 break;
             default:
                 return 1;
